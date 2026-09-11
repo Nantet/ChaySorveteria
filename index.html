@@ -20,6 +20,7 @@
     --cinnamon: #A66325;
     --caramel-tint: #FBE6C9;
     --berry-tint: #FCE3ED;
+    --soda-tint: #DEF1F3;
     --success: #217A4C;
     --success-soft: #E3F3EA;
     --line: rgba(43, 27, 51, 0.14);
@@ -42,6 +43,7 @@
       --cinnamon: #E0A467;
       --caramel-tint: #332019;
       --berry-tint: #33202C;
+      --soda-tint: #16303A;
       --success: #57C98D;
       --success-soft: #1F3B2C;
       --line: rgba(247, 234, 241, 0.16);
@@ -61,6 +63,7 @@
     --cinnamon: #E0A467;
     --caramel-tint: #332019;
     --berry-tint: #33202C;
+    --soda-tint: #16303A;
     --success: #57C98D;
     --success-soft: #1F3B2C;
     --line: rgba(247, 234, 241, 0.16);
@@ -609,6 +612,10 @@
     background: var(--berry-tint);
   }
 
+  .zone[data-tint="soda"] {
+    background: var(--soda-tint);
+  }
+
   .zone-header {
     display: flex;
     align-items: center;
@@ -1047,6 +1054,22 @@
     font-family: var(--font-head);
     font-variant-numeric: tabular-nums;
     font-size: .92rem;
+  }
+
+  .cart-line-btns {
+    display: flex;
+    gap: 10px;
+  }
+
+  .edit-btn {
+    background: none;
+    border: none;
+    color: var(--pink);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: .76rem;
+    padding: 0;
+    font-weight: 700;
   }
 
   .remove-btn {
@@ -1500,9 +1523,9 @@
         id: "churros-tradicional", label: "Churros tradicional", tint: "caramel",
         title: "Churros tradicional", note: "O clássico da casa: crocante por fora, macio por dentro. Disponível a partir das 16h.",
         products: [
-          { id: "ch-peq", name: "Churro pequeno", type: "churro-basic", price: 3, recheios: ["Doce de leite", "Chocolate"], desc: "Porção individual, recheio à sua escolha." },
-          { id: "ch-gra", name: "Churro grande", type: "churro-basic", price: 5, recheios: ["Doce de leite", "Chocolate"], desc: "A dose certa pra matar a vontade." },
-          { id: "ch-nutella", name: "Churro grande com Nutella", type: "fixed", price: 8, recheio: "Nutella", desc: "Recheado com Nutella de ponta a ponta.", isNew: true }
+          { id: "ch-peq", name: "Churros pequeno", type: "churro-basic", price: 3, recheios: ["Doce de leite", "Chocolate"], desc: "Porção individual, recheio à sua escolha." },
+          { id: "ch-gra", name: "Churros grande", type: "churro-basic", price: 5, recheios: ["Doce de leite", "Chocolate"], desc: "A dose certa pra matar a vontade." },
+          { id: "ch-nutella", name: "Churros grande com Nutella", type: "fixed", price: 8, recheio: "Nutella", desc: "Recheado com Nutella de ponta a ponta.", isNew: true }
         ]
       },
       {
@@ -1521,7 +1544,7 @@
         products: [
           { id: "acai-trad", name: "Açaí tradicional", type: "acai", flavors: ["Banana", "Natural", "Morango"], sizes: [{ ml: 200, price: 6.5 }, { ml: 300, price: 8.5 }, { ml: 400, price: 12 }, { ml: 500, price: 17 }, { ml: 770, price: 20.5 }], desc: "Base tradicional cremosa." },
           { id: "acai-premium", name: "Açaí premium", type: "acai", flavors: ["Leitinho"], sizes: [{ ml: 400, price: 16 }, { ml: 500, price: 20 }, { ml: 770, price: 26 }], desc: "Cremosidade extra com leitinho." },
-          { id: "acai-trufado", name: "Açaí trufado", type: "acai", flavors: ["Nutella", "Kit Kat", "Galak", "Beijinho"], sizes: [{ ml: 200, price: 11.5 }, { ml: 300, price: 13.5 }, { ml: 400, price: 17 }, { ml: 500, price: 22 }, { ml: 770, price: 25.5 }], desc: "+R$5,00 sobre o tradicional, sabor por igual.", isNew: true }
+          { id: "acai-trufado", name: "Açaí trufado", type: "acai", noCalda: true, flavors: ["Nutella", "Kit Kat", "Galak", "Beijinho"], sizes: [{ ml: 200, price: 11.5 }, { ml: 300, price: 13.5 }, { ml: 400, price: 17 }, { ml: 500, price: 22 }, { ml: 770, price: 25.5 }], desc: "+R$5,00 sobre o tradicional, sabor por igual.", isNew: true }
         ]
       },
       {
@@ -1537,6 +1560,18 @@
         products: [
           { id: "picole", name: "Picolé", type: "unit-flavor", price: 2.5, flavors: ["Coco", "Chocolate", "Morango", "Maracujá", "Milho verde", "Graviola", "Uva", "Limão", "Chiclete", "Tapioca com coco", "Açaí com banana", "Blue Ice", "Flocos", "Queijo"], newFlavors: ["Blue Ice", "Flocos", "Queijo"], desc: "Sabores clássicos e as novidades da casa." },
           { id: "skimo", name: "Skimo (picolé trufado)", type: "unit-flavor", price: 4.5, flavors: ["Morango", "Brigadeiro", "Chocolate branco", "Pé de moleque", "Pistache", "Maracujá"], newFlavors: ["Pistache", "Maracujá"], desc: "Picolé trufado, coberto e crocante." }
+        ]
+      },
+      {
+        id: "bebidas", label: "Bebidas", tint: "soda",
+        title: "Bebidas", note: "Pra acompanhar seu pedido.",
+        products: [
+          { id: "agua-sem-gas", name: "Água sem gás 500ml", type: "drink", price: 3, desc: "Água mineral sem gás, 500ml." },
+          { id: "agua-com-gas", name: "Água com gás", type: "drink", price: 4, desc: "Água mineral com gás." },
+          { id: "coca-normal", name: "Coca-Cola lata normal", type: "drink", price: 6, desc: "Refrigerante em lata, 350ml." },
+          { id: "coca-zero", name: "Coca-Cola lata zero", type: "drink", price: 6, desc: "Refrigerante em lata zero açúcar, 350ml." },
+          { id: "guaravita-guarana", name: "Guaravita guaraná", type: "drink", price: 3, desc: "Suco Guaravita sabor guaraná." },
+          { id: "guaravita-acai", name: "Guaravita açaí", type: "drink", price: 3, desc: "Suco Guaravita sabor açaí." }
         ]
       }
     ];
@@ -1557,6 +1592,10 @@
 
     /* ---------------- cart state ---------------- */
     var cart = [];
+    var editingUid = null;
+    function hasOptions(p) {
+      return p.type === "churro-basic" || p.type === "churro-gourmet" || p.type === "acai" || p.type === "sorvete" || p.type === "unit-flavor";
+    }
     (function loadCart() {
       try {
         var raw = localStorage.getItem("dachay_cart_v1");
@@ -1632,7 +1671,7 @@
     });
 
     function priceLabel(p) {
-      if (p.type === "churro-basic" || p.type === "fixed") {
+      if (p.type === "churro-basic" || p.type === "fixed" || p.type === "drink") {
         return formatBRL(p.price);
       }
       if (p.type === "churro-gourmet") {
@@ -1713,9 +1752,10 @@
       );
     }
 
-    function openProductModal(id) {
+    function openProductModal(id, editItem) {
       var p = PRODUCT_INDEX[id];
       if (!p) return;
+      editingUid = editItem ? editItem.uid : null;
 
       var bodyHtml = "";
 
@@ -1749,14 +1789,16 @@
         bodyHtml += '<fieldset data-group="acompanhamentos" data-kind="multi" data-max="3"><legend>Acompanhamentos</legend><span class="field-hint">Sem custo — escolha até 3</span><div class="chip-grid">' +
           ACAI_ACOMP.map(function (t) { return chip("checkbox", "acompanhamentos", t, escapeHtml(t), false); }).join("") +
           '</div></fieldset>';
-        bodyHtml += '<fieldset data-group="calda" data-kind="multi" data-max="2"><legend>Caldas</legend><span class="field-hint">Sem custo — escolha até 2</span><div class="chip-grid">' +
-          ACAI_CALDAS.map(function (t) { return chip("checkbox", "calda", t, escapeHtml(t), false); }).join("") +
-          '</div></fieldset>';
+        if (!p.noCalda) {
+          bodyHtml += '<fieldset data-group="calda" data-kind="single"><legend>Calda</legend><span class="field-hint">Sem custo — escolha 1</span><div class="chip-grid">' +
+            ACAI_CALDAS.map(function (t) { return chip("radio", "calda", t, escapeHtml(t), false); }).join("") +
+            '</div></fieldset>';
+        }
         bodyHtml += '<fieldset data-group="adicionais" data-kind="priced"><legend>Adicionais</legend><span class="field-hint">Cada um soma ao valor</span><div class="chip-grid">' +
           ACAI_ADD.map(function (t) { return chip("checkbox", "adicionais", t.name, escapeHtml(t.name) + " <b>+" + formatBRL(t.price) + "</b>", false, ' data-price="' + t.price + '"'); }).join("") +
           '</div></fieldset>';
         bodyHtml += '<fieldset data-group="separado" data-kind="multi"><div class="chip-grid">' +
-          chip("checkbox", "separado", "sim", "Quero os acompanhamentos e a calda à parte", false) +
+          chip("checkbox", "separado", "sim", p.noCalda ? "Quero os acompanhamentos à parte" : "Quero os acompanhamentos e a calda à parte", false) +
           '</div></fieldset>';
       }
 
@@ -1795,14 +1837,26 @@
         '<div class="stepper"><button type="button" data-qty="-1">−</button><output id="qtyOut">1</output><button type="button" data-qty="1">+</button></div>' +
         '</div>' +
         '<div class="qty-row"><span class="field-hint" style="margin:0;">Total do item</span><span class="modal-total" id="modalTotal">' + formatBRL(basePriceOf(p)) + '</span></div>' +
-        '<button class="btn btn-primary" type="button" id="addToCartBtn" style="justify-content:center;">Adicionar ao carrinho</button>' +
+        '<button class="btn btn-primary" type="button" id="addToCartBtn" style="justify-content:center;">' + (editItem ? "Salvar alterações" : "Adicionar ao carrinho") + '</button>' +
         '</div>';
 
       productSheet.dataset.productId = p.id;
-      productSheet.dataset.qty = "1";
+      productSheet.dataset.qty = editItem ? String(editItem.qty) : "1";
 
       openOverlay(productOverlay);
       document.getElementById("closeProduct").addEventListener("click", function () { closeOverlay(productOverlay); });
+
+      if (editItem) {
+        document.getElementById("qtyOut").textContent = String(editItem.qty);
+        productSheet.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(function (inp) { inp.checked = false; });
+        var savedSel = editItem.sel || {};
+        Object.keys(savedSel).forEach(function (group) {
+          (savedSel[group] || []).forEach(function (entry) {
+            var input = productSheet.querySelector('[name="' + group + '"][value="' + entry.value.replace(/"/g, '\\"') + '"]');
+            if (input) input.checked = true;
+          });
+        });
+      }
 
       productSheet.querySelectorAll('[data-qty]').forEach(function (btn) {
         btn.addEventListener("click", function () {
@@ -1836,7 +1890,7 @@
 
     function basePriceOf(p) {
       if (p.type === "acai" || p.type === "sorvete") return p.sizes[0].price;
-      if (p.type === "churro-gourmet" || p.type === "churro-basic" || p.type === "fixed" || p.type === "unit-flavor") return p.price;
+      if (p.type === "churro-gourmet" || p.type === "churro-basic" || p.type === "fixed" || p.type === "unit-flavor" || p.type === "drink") return p.price;
       return 0;
     }
 
@@ -1858,7 +1912,7 @@
       var unit = 0;
       var valid = true;
 
-      if (p.type === "churro-basic" || p.type === "fixed") {
+      if (p.type === "churro-basic" || p.type === "fixed" || p.type === "drink") {
         unit = p.price;
       } else if (p.type === "churro-gourmet") {
         unit = p.price;
@@ -1912,7 +1966,7 @@
         if (cd.length) details.push("Calda: " + cd.join(", "));
         var ad = (sel.adicionais || []);
         if (ad.length) details.push("Adicionais: " + ad.map(function (x) { return x.value + " (+" + formatBRL(x.price) + ")"; }).join(", "));
-        if ((sel.separado || []).length) details.push("Acompanhamentos e calda à parte");
+        if ((sel.separado || []).length) details.push(p.noCalda ? "Acompanhamentos à parte" : "Acompanhamentos e calda à parte");
       }
       if (p.type === "sorvete") {
         var tm2 = (sel.tamanho || [])[0];
@@ -1933,23 +1987,34 @@
       var addBtn = document.getElementById("addToCartBtn");
       if (addBtn.disabled) return;
 
+      var wasEditing = !!editingUid;
       var unit = parseFloat(document.getElementById("modalTotal").textContent.replace("R$ ", "").replace(",", ".")) / qty;
       var details = buildDetails(p, sel);
 
-      cart.push({
-        uid: "c" + Date.now() + Math.random().toString(16).slice(2),
+      var entry = {
+        uid: wasEditing ? editingUid : ("c" + Date.now() + Math.random().toString(16).slice(2)),
         productId: p.id,
         name: p.name,
         details: details,
+        sel: sel,
         qty: qty,
         unitPrice: unit,
         lineTotal: unit * qty
-      });
+      };
+
+      if (wasEditing) {
+        var idx = -1;
+        cart.forEach(function (it, i) { if (it.uid === editingUid) idx = i; });
+        if (idx > -1) { cart[idx] = entry; } else { cart.push(entry); }
+      } else {
+        cart.push(entry);
+      }
 
       saveCart();
       renderCartBadges();
       closeOverlay(productOverlay);
-      showToast(p.name + " adicionado ✓");
+      showToast(wasEditing ? "Pedido atualizado ✓" : (p.name + " adicionado ✓"));
+      if (wasEditing) openCartSheet();
     }
 
     /* ---------------- cart sheet ---------------- */
@@ -1964,6 +2029,8 @@
         return;
       }
       cartBody.innerHTML = cart.map(function (it) {
+        var prod = PRODUCT_INDEX[it.productId];
+        var editable = prod && hasOptions(prod);
         return (
           '<div class="cart-line">' +
           '<div class="cart-line-info">' +
@@ -1972,7 +2039,10 @@
           '</div>' +
           '<div class="cart-line-actions">' +
           '<span class="cart-line-price">' + formatBRL(it.lineTotal) + '</span>' +
+          '<div class="cart-line-btns">' +
+          (editable ? '<button class="edit-btn" data-edit="' + it.uid + '" type="button">editar</button>' : '') +
           '<button class="remove-btn" data-remove="' + it.uid + '" type="button">remover</button>' +
+          '</div>' +
           '</div>' +
           '</div>'
         );
@@ -1981,6 +2051,16 @@
     }
 
     cartBody.addEventListener("click", function (e) {
+      var editBtn = e.target.closest("[data-edit]");
+      if (editBtn) {
+        var item = null;
+        cart.forEach(function (it) { if (it.uid === editBtn.dataset.edit) item = it; });
+        if (item) {
+          closeOverlay(cartOverlay);
+          openProductModal(item.productId, item);
+        }
+        return;
+      }
       var btn = e.target.closest("[data-remove]");
       if (!btn) return;
       cart = cart.filter(function (it) { return it.uid !== btn.dataset.remove; });
@@ -2059,7 +2139,7 @@
 
     /* ---------------- overlay helpers ---------------- */
     function openOverlay(el) { el.classList.add("open"); }
-    function closeOverlay(el) { el.classList.remove("open"); }
+    function closeOverlay(el) { el.classList.remove("open"); if (el === productOverlay) editingUid = null; }
     [productOverlay, cartOverlay].forEach(function (ov) {
       ov.addEventListener("click", function (e) { if (e.target === ov) closeOverlay(ov); });
     });
