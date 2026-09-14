@@ -1506,7 +1506,7 @@
       { name: "Granulado premium de chocolate", price: 2 },
       { name: "Granulado premium de pistache", price: 2 }
     ];
-    var ACAI_ACOMP = ["Granola", "Granulado colorido", "Flocos de arroz", "Jujuba", "Paçoca", "Amendoim", "Sucrilhos colorido", "Granulado preto", "Sucrilhos", "Leite em pó", "Aveia", "Confete"];
+    var ACAI_ACOMP = ["Granola", "Granulado colorido", "Flocos de arroz", "Jujuba", "Paçoca", "Amendoim", "Chocoball", "Sucrilhos colorido", "Granulado preto", "Sucrilhos", "Leite em pó", "Aveia", "Confete"];
     var ACAI_ADD = [
       { name: "Fini Beijinho", price: 2 },
       { name: "Fini Banana", price: 2 },
@@ -1773,4 +1773,4 @@
         bodyHtml += '<fieldset data-group="toppingsFree" data-kind="multi" data-max="2"><legend>Toppings sem acréscimo</legend><span class="field-hint">Escolha até 2</span><div class="chip-grid">' +
           FREE_TOPPINGS.map(function (t) { return chip("checkbox", "toppingsFree", t, escapeHtml(t), false); }).join("") +
           '</div></fieldset>';
-        bodyHtml += '<f
+    
