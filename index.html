@@ -6,7 +6,6 @@
 <link
   href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@500;600;700&family=Mulish:wght@400;600;700;800&display=swap"
   rel="stylesheet">
-  
 <style>
   :root {
     --cream: #FBEDD9;
@@ -1388,7 +1387,7 @@
   <p class="footer-bottom">Cardápio digital Da Chay — peça pelo WhatsApp e receba a confirmação rapidinho.</p>
 </footer>
 
-<div class da="cart-bar" id="cartBar">
+<div class="cart-bar" id="cartBar">
   <div class="cart-bar-inner">
     <div class="cart-bar-info">
       <b id="cartBarTotal">R$ 0,00</b>
@@ -1497,7 +1496,7 @@
       textEl.textContent = status.text + (status.detail ? " · " + status.detail : "");
     }
 
-    var FREE_TOPPINGS = ["Granulado preto", "Granulado colorido", "Coco ralado", "Paçoca", "Amendoim", "Leite em pó", "Chocoball"];
+    var FREE_TOPPINGS = ["Granulado preto", "Granulado colorido", "Coco ralado", "Paçoca", "Amendoim", "Leite em pó"];
     var PREMIUM_TOPPINGS = [
       { name: "Confete", price: 3 },
       { name: "Gotas de chocolate", price: 3 },
@@ -1506,7 +1505,7 @@
       { name: "Granulado premium de chocolate", price: 2 },
       { name: "Granulado premium de pistache", price: 2 }
     ];
-    var ACAI_ACOMP = ["Granola", "Granulado colorido", "Flocos de arroz", "Jujuba", "Paçoca", "Amendoim", "Chocoball", "Sucrilhos colorido", "Granulado preto", "Sucrilhos", "Leite em pó", "Aveia", "Confete"];
+    var ACAI_ACOMP = ["Granola", "Granulado colorido", "Flocos de arroz", "Jujuba", "Paçoca", "Amendoim", "Sucrilhos colorido", "Granulado preto", "Sucrilhos", "Leite em pó", "Aveia", "Confete"];
     var ACAI_ADD = [
       { name: "Fini Beijinho", price: 2 },
       { name: "Fini Banana", price: 2 },
@@ -1773,4 +1772,383 @@
         bodyHtml += '<fieldset data-group="toppingsFree" data-kind="multi" data-max="2"><legend>Toppings sem acréscimo</legend><span class="field-hint">Escolha até 2</span><div class="chip-grid">' +
           FREE_TOPPINGS.map(function (t) { return chip("checkbox", "toppingsFree", t, escapeHtml(t), false); }).join("") +
           '</div></fieldset>';
-    
+        bodyHtml += '<fieldset data-group="toppingsPremium" data-kind="priced"><legend>Toppings premium</legend><span class="field-hint">Cada um soma ao valor</span><div class="chip-grid">' +
+          PREMIUM_TOPPINGS.map(function (t) { return chip("checkbox", "toppingsPremium", t.name, escapeHtml(t.name) + " <b>+" + formatBRL(t.price) + "</b>", false, ' data-price="' + t.price + '"'); }).join("") +
+          '</div></fieldset>';
+      }
+
+      if (p.type === "acai") {
+        if (p.flavors.length > 1) {
+          bodyHtml += '<fieldset data-group="sabor" data-kind="single"><legend>Sabor</legend><div class="chip-grid">' +
+            p.flavors.map(function (f, i) { return chip("radio", "sabor", f, escapeHtml(f), i === 0); }).join("") +
+            '</div></fieldset>';
+        }
+        bodyHtml += '<fieldset data-group="tamanho" data-kind="single-price"><legend>Tamanho</legend><div class="chip-grid">' +
+          p.sizes.map(function (s, i) { return chip("radio", "tamanho", s.ml, s.ml + "ml <b>" + formatBRL(s.price) + "</b>", i === 0, ' data-price="' + s.price + '"'); }).join("") +
+          '</div></fieldset>';
+        bodyHtml += '<fieldset data-group="acompanhamentos" data-kind="multi" data-max="3"><legend>Acompanhamentos</legend><span class="field-hint">Sem custo — escolha até 3</span><div class="chip-grid">' +
+          ACAI_ACOMP.map(function (t) { return chip("checkbox", "acompanhamentos", t, escapeHtml(t), false); }).join("") +
+          '</div></fieldset>';
+        if (!p.noCalda) {
+          bodyHtml += '<fieldset data-group="calda" data-kind="single"><legend>Calda</legend><span class="field-hint">Sem custo — escolha 1</span><div class="chip-grid">' +
+            ACAI_CALDAS.map(function (t) { return chip("radio", "calda", t, escapeHtml(t), false); }).join("") +
+            '</div></fieldset>';
+        }
+        bodyHtml += '<fieldset data-group="adicionais" data-kind="priced"><legend>Adicionais</legend><span class="field-hint">Cada um soma ao valor</span><div class="chip-grid">' +
+          ACAI_ADD.map(function (t) { return chip("checkbox", "adicionais", t.name, escapeHtml(t.name) + " <b>+" + formatBRL(t.price) + "</b>", false, ' data-price="' + t.price + '"'); }).join("") +
+          '</div></fieldset>';
+        bodyHtml += '<fieldset data-group="separado" data-kind="multi"><div class="chip-grid">' +
+          chip("checkbox", "separado", "sim", p.noCalda ? "Quero os acompanhamentos à parte" : "Quero os acompanhamentos e a calda à parte", false) +
+          '</div></fieldset>';
+      }
+
+      if (p.type === "sorvete") {
+        bodyHtml += '<fieldset data-group="tamanho" data-kind="single-price"><legend>Tamanho</legend><div class="chip-grid">' +
+          p.sizes.map(function (s, i) { return chip("radio", "tamanho", s.ml, s.ml + "ml <b>" + formatBRL(s.price) + "</b>", i === 0, ' data-price="' + s.price + '"'); }).join("") +
+          '</div></fieldset>';
+        bodyHtml += '<fieldset data-group="sabor" data-kind="multi" data-max="2"><legend>Sabores</legend><span class="field-hint">Escolha até 2</span><div class="chip-grid">' +
+          p.flavors.map(function (f, i) { return chip("checkbox", "sabor", f, escapeHtml(f), i === 0); }).join("") +
+          '</div></fieldset>';
+      }
+
+      if (p.type === "unit-flavor") {
+        bodyHtml += '<fieldset data-group="sabor" data-kind="single"><legend>Sabor</legend><div class="chip-grid">' +
+          p.flavors.map(function (f, i) {
+            var isNew = p.newFlavors && p.newFlavors.indexOf(f) > -1;
+            var label = escapeHtml(f) + (isNew ? ' <span class="tag-new">novo</span>' : "");
+            return chip("radio", "sabor", f, label, i === 0);
+          }).join("") +
+          '</div></fieldset>';
+      }
+
+      if (p.type === "fixed") {
+        bodyHtml += '<p class="field-hint">Recheio: ' + escapeHtml(p.recheio) + '</p>';
+      }
+
+      productSheet.innerHTML =
+        '<div class="sheet-head">' +
+        '<div><h3>' + escapeHtml(p.name) + '</h3><p>' + escapeHtml(p.desc) + '</p></div>' +
+        '<button class="icon-btn" type="button" id="closeProduct" aria-label="Fechar">✕</button>' +
+        '</div>' +
+        '<div class="sheet-body">' + bodyHtml + '</div>' +
+        '<div class="sheet-foot">' +
+        '<div class="qty-row">' +
+        '<span class="field-hint" style="margin:0;">Quantidade</span>' +
+        '<div class="stepper"><button type="button" data-qty="-1">−</button><output id="qtyOut">1</output><button type="button" data-qty="1">+</button></div>' +
+        '</div>' +
+        '<div class="qty-row"><span class="field-hint" style="margin:0;">Total do item</span><span class="modal-total" id="modalTotal">' + formatBRL(basePriceOf(p)) + '</span></div>' +
+        '<button class="btn btn-primary" type="button" id="addToCartBtn" style="justify-content:center;">' + (editItem ? "Salvar alterações" : "Adicionar ao carrinho") + '</button>' +
+        '</div>';
+
+      productSheet.dataset.productId = p.id;
+      productSheet.dataset.qty = editItem ? String(editItem.qty) : "1";
+
+      openOverlay(productOverlay);
+      document.getElementById("closeProduct").addEventListener("click", function () { closeOverlay(productOverlay); });
+
+      if (editItem) {
+        document.getElementById("qtyOut").textContent = String(editItem.qty);
+        productSheet.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(function (inp) { inp.checked = false; });
+        var savedSel = editItem.sel || {};
+        Object.keys(savedSel).forEach(function (group) {
+          (savedSel[group] || []).forEach(function (entry) {
+            var input = productSheet.querySelector('[name="' + group + '"][value="' + entry.value.replace(/"/g, '\\"') + '"]');
+            if (input) input.checked = true;
+          });
+        });
+      }
+
+      productSheet.querySelectorAll('[data-qty]').forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var q = parseInt(productSheet.dataset.qty, 10) + parseInt(btn.dataset.qty, 10);
+          if (q < 1) q = 1;
+          productSheet.dataset.qty = String(q);
+          document.getElementById("qtyOut").textContent = String(q);
+          updateModalPrice(p);
+        });
+      });
+
+      productSheet.querySelectorAll("fieldset[data-kind='multi'], fieldset[data-kind='priced']").forEach(function (fs) {
+        var max = parseInt(fs.dataset.max || "0", 10);
+        if (!max) return;
+        fs.addEventListener("change", function (e) {
+          var checked = fs.querySelectorAll("input:checked");
+          if (checked.length > max) {
+            e.target.checked = false;
+            showToast("Escolha até " + max + " opções aqui");
+          }
+          updateModalPrice(p);
+        });
+      });
+
+      document.getElementById("addToCartBtn").addEventListener("click", function () {
+        addProductToCart(p);
+      });
+
+      updateModalPrice(p);
+    }
+
+    function basePriceOf(p) {
+      if (p.type === "acai" || p.type === "sorvete") return p.sizes[0].price;
+      if (p.type === "churro-gourmet" || p.type === "churro-basic" || p.type === "fixed" || p.type === "unit-flavor" || p.type === "drink") return p.price;
+      return 0;
+    }
+
+    function getSelections() {
+      var out = {};
+      productSheet.querySelectorAll("fieldset").forEach(function (fs) {
+        var group = fs.dataset.group;
+        var inputs = Array.prototype.slice.call(fs.querySelectorAll("input:checked"));
+        out[group] = inputs.map(function (i) {
+          return { value: i.value, price: i.dataset.price ? parseFloat(i.dataset.price) : 0 };
+        });
+      });
+      return out;
+    }
+
+    function updateModalPrice(p) {
+      var sel = getSelections();
+      var qty = parseInt(productSheet.dataset.qty, 10);
+      var unit = 0;
+      var valid = true;
+
+      if (p.type === "churro-basic" || p.type === "fixed" || p.type === "drink") {
+        unit = p.price;
+      } else if (p.type === "churro-gourmet") {
+        unit = p.price;
+        (sel.toppingsPremium || []).forEach(function (s) { unit += s.price; });
+        valid = (sel.sabor || []).length > 0;
+      } else if (p.type === "acai") {
+        var sizeSel = (sel.tamanho || [])[0];
+        unit = sizeSel ? sizeSel.price : p.sizes[0].price;
+        (sel.adicionais || []).forEach(function (s) { unit += s.price; });
+        valid = !!sizeSel && (p.flavors.length === 1 || (sel.sabor || []).length > 0);
+      } else if (p.type === "sorvete") {
+        var szSel = (sel.tamanho || [])[0];
+        unit = szSel ? szSel.price : p.sizes[0].price;
+        valid = !!szSel && (sel.sabor || []).length > 0;
+      } else if (p.type === "unit-flavor") {
+        unit = p.price;
+        valid = (sel.sabor || []).length > 0;
+      }
+
+      document.getElementById("modalTotal").textContent = formatBRL(unit * qty);
+      var addBtn = document.getElementById("addToCartBtn");
+      addBtn.disabled = !valid;
+    }
+
+    function buildDetails(p, sel) {
+      var details = [];
+      if (p.type === "churro-basic") {
+        var r = (sel.recheio || [])[0];
+        if (r) details.push("Recheio: " + r.value);
+      }
+      if (p.type === "fixed") {
+        details.push("Recheio: " + p.recheio);
+      }
+      if (p.type === "churro-gourmet") {
+        var s = (sel.sabor || [])[0];
+        if (s) details.push("Sabor: " + s.value);
+        var tf = (sel.toppingsFree || []).map(function (x) { return x.value; });
+        if (tf.length) details.push("Toppings: " + tf.join(", "));
+        var tp = (sel.toppingsPremium || []);
+        if (tp.length) details.push("Toppings premium: " + tp.map(function (x) { return x.value + " (+" + formatBRL(x.price) + ")"; }).join(", "));
+      }
+      if (p.type === "acai") {
+        var sb = (sel.sabor || [])[0];
+        var saborVal = sb ? sb.value : (p.flavors.length === 1 ? p.flavors[0] : null);
+        if (saborVal) details.push("Sabor: " + saborVal);
+        var tm = (sel.tamanho || [])[0];
+        if (tm) details.push("Tamanho: " + tm.value + "ml");
+        var ac = (sel.acompanhamentos || []).map(function (x) { return x.value; });
+        if (ac.length) details.push("Acompanhamentos: " + ac.join(", "));
+        var cd = (sel.calda || []).map(function (x) { return x.value; });
+        if (cd.length) details.push("Calda: " + cd.join(", "));
+        var ad = (sel.adicionais || []);
+        if (ad.length) details.push("Adicionais: " + ad.map(function (x) { return x.value + " (+" + formatBRL(x.price) + ")"; }).join(", "));
+        if ((sel.separado || []).length) details.push(p.noCalda ? "Acompanhamentos à parte" : "Acompanhamentos e calda à parte");
+      }
+      if (p.type === "sorvete") {
+        var tm2 = (sel.tamanho || [])[0];
+        if (tm2) details.push("Tamanho: " + tm2.value + "ml");
+        var fl = (sel.sabor || []).map(function (x) { return x.value; });
+        if (fl.length) details.push("Sabores: " + fl.join(", "));
+      }
+      if (p.type === "unit-flavor") {
+        var uf = (sel.sabor || [])[0];
+        if (uf) details.push("Sabor: " + uf.value);
+      }
+      return details;
+    }
+
+    function addProductToCart(p) {
+      var sel = getSelections();
+      var qty = parseInt(productSheet.dataset.qty, 10);
+      var addBtn = document.getElementById("addToCartBtn");
+      if (addBtn.disabled) return;
+
+      var wasEditing = !!editingUid;
+      var unit = parseFloat(document.getElementById("modalTotal").textContent.replace("R$ ", "").replace(",", ".")) / qty;
+      var details = buildDetails(p, sel);
+
+      var entry = {
+        uid: wasEditing ? editingUid : ("c" + Date.now() + Math.random().toString(16).slice(2)),
+        productId: p.id,
+        name: p.name,
+        details: details,
+        sel: sel,
+        qty: qty,
+        unitPrice: unit,
+        lineTotal: unit * qty
+      };
+
+      if (wasEditing) {
+        var idx = -1;
+        cart.forEach(function (it, i) { if (it.uid === editingUid) idx = i; });
+        if (idx > -1) { cart[idx] = entry; } else { cart.push(entry); }
+      } else {
+        cart.push(entry);
+      }
+
+      saveCart();
+      renderCartBadges();
+      closeOverlay(productOverlay);
+      showToast(wasEditing ? "Pedido atualizado ✓" : (p.name + " adicionado ✓"));
+      if (wasEditing) openCartSheet();
+    }
+
+    /* ---------------- cart sheet ---------------- */
+    var cartOverlay = document.getElementById("cartOverlay");
+    var cartBody = document.getElementById("cartBody");
+    var cartTotalEl = document.getElementById("cartTotal");
+
+    function renderCartBody() {
+      if (cart.length === 0) {
+        cartBody.innerHTML = '<p class="empty-cart">Seu carrinho está vazio. Escolha algo gostoso no cardápio 🍫</p>';
+        cartTotalEl.textContent = formatBRL(0);
+        return;
+      }
+      cartBody.innerHTML = cart.map(function (it) {
+        var prod = PRODUCT_INDEX[it.productId];
+        var editable = prod && hasOptions(prod);
+        return (
+          '<div class="cart-line">' +
+          '<div class="cart-line-info">' +
+          '<b>' + it.qty + 'x ' + escapeHtml(it.name) + '</b>' +
+          (it.details.length ? '<p>' + it.details.map(escapeHtml).join(" · ") + '</p>' : "") +
+          '</div>' +
+          '<div class="cart-line-actions">' +
+          '<span class="cart-line-price">' + formatBRL(it.lineTotal) + '</span>' +
+          '<div class="cart-line-btns">' +
+          (editable ? '<button class="edit-btn" data-edit="' + it.uid + '" type="button">editar</button>' : '') +
+          '<button class="remove-btn" data-remove="' + it.uid + '" type="button">remover</button>' +
+          '</div>' +
+          '</div>' +
+          '</div>'
+        );
+      }).join("");
+      cartTotalEl.textContent = formatBRL(cartTotals().total);
+    }
+
+    cartBody.addEventListener("click", function (e) {
+      var editBtn = e.target.closest("[data-edit]");
+      if (editBtn) {
+        var item = null;
+        cart.forEach(function (it) { if (it.uid === editBtn.dataset.edit) item = it; });
+        if (item) {
+          closeOverlay(cartOverlay);
+          openProductModal(item.productId, item);
+        }
+        return;
+      }
+      var btn = e.target.closest("[data-remove]");
+      if (!btn) return;
+      cart = cart.filter(function (it) { return it.uid !== btn.dataset.remove; });
+      saveCart();
+      renderCartBadges();
+      renderCartBody();
+    });
+
+    function openCartSheet() {
+      renderCartBody();
+      openOverlay(cartOverlay);
+    }
+
+    document.getElementById("cartChipBtn").addEventListener("click", openCartSheet);
+    document.getElementById("cartBarBtn").addEventListener("click", openCartSheet);
+    document.getElementById("closeCart").addEventListener("click", function () { closeOverlay(cartOverlay); });
+
+    var clearCartBtn = document.getElementById("clearCartBtn");
+    var clearConfirmTimer = null;
+    clearCartBtn.addEventListener("click", function () {
+      if (cart.length === 0) return;
+      if (clearCartBtn.dataset.confirming === "1") {
+        clearTimeout(clearConfirmTimer);
+        clearCartBtn.dataset.confirming = "";
+        clearCartBtn.textContent = "Esvaziar carrinho";
+        cart = [];
+        saveCart();
+        renderCartBadges();
+        renderCartBody();
+        return;
+      }
+      clearCartBtn.dataset.confirming = "1";
+      clearCartBtn.textContent = "Toque de novo pra confirmar";
+      clearConfirmTimer = setTimeout(function () {
+        clearCartBtn.dataset.confirming = "";
+        clearCartBtn.textContent = "Esvaziar carrinho";
+      }, 3000);
+    });
+
+    document.getElementById("checkoutBtn").addEventListener("click", function () {
+      if (cart.length === 0) {
+        showToast("Adicione algo ao carrinho primeiro");
+        return;
+      }
+      var name = document.getElementById("customerName").value.trim();
+      var note = document.getElementById("customerNote").value.trim();
+      var lines = cart.map(function (it, i) {
+        var head = (i + 1) + ". " + it.qty + "x " + it.name;
+        var det = it.details.length ? "\n   " + it.details.join(" · ") : "";
+        var sub = "\n   Subtotal: " + formatBRL(it.lineTotal);
+        return head + det + sub;
+      }).join("\n\n");
+      var total = cartTotals().total;
+      var msg = "Oi, Da Chay! 👋 Quero fazer este pedido pelo cardápio digital:\n\n" +
+        lines +
+        "\n\nTotal: " + formatBRL(total) +
+        (name ? "\n\nNome: " + name : "") +
+        (note ? "\n\nObservação: " + note : "") +
+        "\n\nEndereço/retirada e forma de pagamento: combinamos por aqui 🙂";
+
+      var waUrl = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+      var link = document.createElement("a");
+      link.href = waUrl;
+      link.target = "_blank";
+      link.rel = "noopener";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      cart = [];
+      saveCart();
+      renderCartBadges();
+      closeOverlay(cartOverlay);
+      showToast("Pedido enviado pro WhatsApp! 🍫");
+    });
+
+    /* ---------------- overlay helpers ---------------- */
+    function openOverlay(el) { el.classList.add("open"); }
+    function closeOverlay(el) { el.classList.remove("open"); if (el === productOverlay) editingUid = null; }
+    [productOverlay, cartOverlay].forEach(function (ov) {
+      ov.addEventListener("click", function (e) { if (e.target === ov) closeOverlay(ov); });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { closeOverlay(productOverlay); closeOverlay(cartOverlay); }
+    });
+
+    renderCartBadges();
+    renderShopStatus();
+    setInterval(renderShopStatus, 60000);
+  })();
+</script>
